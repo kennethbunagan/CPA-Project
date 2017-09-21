@@ -8,7 +8,8 @@ pygame.init()
 width = 800
 height = 600
 
-img = pygame.image.load('res/topview.png')
+player_sprite = pygame.image.load('res/topview.png')
+bullet_sprite = pygame.image.load('res/bullet.png')
 
 top_boundary = 300
 left_boundary = 10
@@ -212,7 +213,8 @@ class MainWindow:
                     draw.rect(game_display, grey, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
 
                 for b in player_bullet_list:
-                    draw.rect(game_display, yellow, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
+                    #draw.rect(game_display, yellow, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
+                    game_display.blit(bullet_sprite, (b.rect.x, b.rect.y))
 
                 # draw enemies
                 for e in enemy_list:
@@ -220,7 +222,7 @@ class MainWindow:
 
                 # draw player
                 # draw.rect(game_display, green, (self.player.rect.x, self.player.rect.y, self.player.rect.width, self.player.rect.height))
-                game_display.blit(img, (self.player.rect.x - 7, self.player.rect.y - 12))
+                game_display.blit(player_sprite, (self.player.rect.x - 7, self.player.rect.y - 12))
 
                 score_text = "Score: " + str(self.points)
                 hit_text = "Hitpoints: " + str(self.player.hit_points)
