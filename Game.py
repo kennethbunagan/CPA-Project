@@ -145,7 +145,7 @@ class MainWindow:
 #           player shoot
             if list_inputs.__contains__('space'):
                 if time.get_ticks() - self.player.last_time_shoot > 800:
-                    player_bullet_list.append(Bullet(self.player.rect.x, self.player.rect.y - 32, 16, 16, -4))
+                    player_bullet_list.append(Bullet(self.player.rect.x + 8, self.player.rect.y - 32, 16, 16, -4))
                     self.player.last_time_shoot = time.get_ticks()
 
             if self.is_main_game:
