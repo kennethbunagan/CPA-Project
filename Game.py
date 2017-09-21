@@ -21,7 +21,7 @@ menu_x = 400 - menu_width / 2
 menu_y = 300 - menu_height / 2
 
 game_display = pygame.display.set_mode((width, height))
-pygame.display.set_caption('CPA Project')
+pygame.display.set_caption('Last Ranger')
 
 clock = pygame.time.Clock()
 time = pygame.time
@@ -148,7 +148,7 @@ class MainWindow:
 #           player shoot
             if list_inputs.__contains__('space'):
                 if time.get_ticks() - self.player.last_time_shoot > 800:
-                    player_bullet_list.append(Bullet(self.player.rect.x + 8, self.player.rect.y - 32, 16, 16, -4))
+                    player_bullet_list.append(Bullet(self.player.rect.x + 16, self.player.rect.y - 32, 16, 16, -4))
                     self.player.last_time_shoot = time.get_ticks()
 
             if self.is_main_game:
@@ -219,7 +219,7 @@ class MainWindow:
                     draw.rect(game_display, black, (e.rect.x, e.rect.y, e.rect.width, e.rect.height))
 
                 # draw player
-                draw.rect(game_display, green, (self.player.rect.x, self.player.rect.y, self.player.rect.width, self.player.rect.height))
+                # draw.rect(game_display, green, (self.player.rect.x, self.player.rect.y, self.player.rect.width, self.player.rect.height))
                 game_display.blit(img, (self.player.rect.x - 7, self.player.rect.y - 12))
 
                 score_text = "Score: " + str(self.points)
@@ -253,14 +253,14 @@ class MainWindow:
                 # draw menu screen
                 draw.rect(game_display, black, (menu_x, menu_y, menu_width, menu_height))
 
-                menu_text = "Blck Bx Shtr"
+                menu_text = "Last Ranger"
 
                 menu_label = font2.render(menu_text, 1, white)
 
                 if is_first_run:
                     menu_text_2 = "Press 'ENTER' key to start a new game."
                 else:
-                    menu_text_3 = "You got owned by bck bxs."
+                    menu_text_3 = "You have fallen."
                     menu_text_2 = "Press 'ENTER' key to try again."
                     menu_label_3 = font.render(menu_text_3, 1, red)
                     game_display.blit(menu_label_3, (menu_x + 20, menu_y + 40))
