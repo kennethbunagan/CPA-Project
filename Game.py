@@ -104,29 +104,28 @@ class MainWindow:
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_LEFT:
                             if list_inputs.__contains__('left'):
-                                print('!')
+                                pass
                             else:
                                 list_inputs.append('left')
                         elif event.key == pygame.K_RIGHT:
                             if list_inputs.__contains__('right'):
-                                print('!')
+                                pass
                             else:
                                 list_inputs.append('right')
                         elif event.key == pygame.K_UP:
                             if list_inputs.__contains__('up'):
-                                print('!')
+                                pass
                             else:
                                 list_inputs.append('up')
                         elif event.key == pygame.K_DOWN:
                             if list_inputs.__contains__('down'):
-                                print('!')
+                                pass
                             else:
                                 list_inputs.append('down')
                         if event.key == pygame.K_SPACE:
                             if list_inputs.__contains__('space'):
-                                print('!')
+                                pass
                             else:
-                                print('space down')
                                 list_inputs.append('space')
 
                 if event.type == pygame.KEYUP:
@@ -146,8 +145,6 @@ class MainWindow:
                     if event.key == pygame.K_SPACE:
                         if list_inputs.__contains__('space'):
                             list_inputs.remove('space')
-
-            print(list_inputs)
 
             # check if list contains movement commands to move player character
             if list_inputs.__contains__('left') and self.player.rect.x > left_boundary:
@@ -243,6 +240,11 @@ class MainWindow:
                     if b.rect.y + b.rect.width == 600:
                         player_bullet_list.remove(b)
 
+
+                if self.base_hitpoints < 1:
+                    self.is_main_game = False
+
+
                 # draw game objects in the canvas
                 # screen reset to white
                 # draw.rect(game_display, white, (0, 0, width, height))
@@ -292,7 +294,6 @@ class MainWindow:
 
                 if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN or event.key == pygame.K_KP_ENTER:
-                            print('New Game!')
                             new_game()
                             self.__init__(width, height)
                             time = t1
@@ -303,19 +304,21 @@ class MainWindow:
                             is_first_run = False
 
                 # screen reset to white
-                draw.rect(game_display, red, (0, 0, width, height))
+                draw.rect(game_display, grey, (0, 0, width, height))
 
                 # draw menu screen
                 draw.rect(game_display, black, (menu_x, menu_y, menu_width, menu_height))
 
                 menu_text = "Last Ranger"
+                help1 = "SPACEBAR to shoot"
+                help2 = "ARROW KEYS to move"
 
                 menu_label = font2.render(menu_text, 1, white)
 
                 if is_first_run:
                     menu_text_2 = "Press 'ENTER' key to start."
                 else:
-                    menu_text_3 = "You have fallen, soldier."
+                    menu_text_3 = "You have lost."
                     menu_text_4 = "Taking down " + str(self.points) + " invaders with you."
                     menu_text_2 = "Press 'ENTER' key to play again."
                     menu_label_3 = font.render(menu_text_3, 1, red)
@@ -325,10 +328,15 @@ class MainWindow:
 
 
                 menu_label_2 = font.render(menu_text_2, 1, white)
+                help_label = font.render(help1, 1, white)
+                help_label_2 = font.render(help2, 1, white)
 
                 # draw menus
                 game_display.blit(menu_label, (menu_x + 20, menu_y + 80))
-                game_display.blit(menu_label_2, (menu_x + 20, menu_width - 20))
+                game_display.blit(menu_label_2, (menu_x + 20, menu_width - 10))
+
+                game_display.blit(help_label, (menu_x + 20, menu_width - 60))
+                game_display.blit(help_label_2, (menu_x + 20, menu_width - 40))
 
             pygame.display.update()
             clock.tick(fps)
