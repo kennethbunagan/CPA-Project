@@ -13,6 +13,7 @@ bullet_sprite = pygame.image.load('res/bullet.png')
 bullet2_sprite = pygame.image.load('res/bullet2.png')
 alien_sprite = pygame.image.load('res/alien.png')
 alien2_sprite = pygame.image.load('res/alien2.png')
+grass = pygame.image.load('res/grass.png')
 
 
 top_boundary = 300
@@ -239,7 +240,8 @@ class MainWindow:
 
                 # draw game objects in the canvas
                 # screen reset to white
-                draw.rect(game_display, white, (0, 0, width, height))
+                # draw.rect(game_display, white, (0, 0, width, height))
+                game_display.blit(grass, (0, 0))
 
                 # draw bullets
                 for b in enemy_bullet_list:
