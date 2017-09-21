@@ -85,7 +85,7 @@ class MainWindow:
         self.is_running = True
         self.is_main_game = False
         self.player = Character(400, 520, 32, 32, 3)
-        self.base_hitpoints = 10
+        self.base_hitpoints = 0
 
     def main(self):
 
@@ -179,7 +179,7 @@ class MainWindow:
                     e.move(0, 2)
                     if e.rect.y + e.rect. width == 600:
                         enemy_list_2.remove(e)
-                        self.base_hitpoints -= e.hit_points
+                        self.base_hitpoints += e.hit_points
                         continue
                     if e.rect.colliderect(self.player.rect):
                         enemy_list_2.remove(e)
@@ -204,7 +204,7 @@ class MainWindow:
                     e.move(0, 1)
                     if e.rect.y + e.rect.width == 600:
                         enemy_list.remove(e)
-                        self.base_hitpoints -= e.hit_points
+                        self.base_hitpoints += e.hit_points
                         continue
                     if e.rect.colliderect(self.player.rect):
                         enemy_list.remove(e)
@@ -241,7 +241,7 @@ class MainWindow:
                         player_bullet_list.remove(b)
 
 
-                if self.base_hitpoints < 1:
+                if self.base_hitpoints == 10:
                     self.is_main_game = False
 
 
@@ -281,12 +281,16 @@ class MainWindow:
                     game_display.blit(harto, (10, 40))
 
                 score_text =  str(self.points) + " Kills"
-                base_text = "Base hit points: " + str(self.base_hitpoints)
+                base_text = "Generator Damage: " + str(self.base_hitpoints * 10) + "%"
 
                 score_label = font3.render(score_text, 1, white)
-                base_label = font.render(base_text, 1, blue)
+
+                if self.base_hitpoints > 5:
+                    base_label = font3.render(base_text, 1, red)
+                else:
+                    base_label = font3.render(base_text, 1, white)
                 game_display.blit(score_label, (350, 40))
-                game_display.blit(base_label, (40, 60))
+                game_display.blit(base_label, (270, 60))
 
             # if the game is not playing or menu is on is off
             # draw menu screens for 'start' and 'game over'

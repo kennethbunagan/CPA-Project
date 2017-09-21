@@ -17,8 +17,8 @@
       <file leaf-file-name="Game.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Game.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="320" column="50" lean-forward="true" selection-start-line="320" selection-start-column="50" selection-end-line="320" selection-end-column="50" />
+            <state relative-caret-position="245">
+              <caret line="290" column="65" lean-forward="false" selection-start-line="290" selection-start-column="65" selection-end-line="290" selection-end-column="65" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -54,6 +54,7 @@
       <find>print</find>
       <find>base_hitpoints</find>
       <find>player.hit_points</find>
+      <find>base_hitp</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -704,8 +705,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Game.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="320" column="50" lean-forward="true" selection-start-line="320" selection-start-column="50" selection-end-line="320" selection-end-column="50" />
+        <state relative-caret-position="245">
+          <caret line="290" column="65" lean-forward="false" selection-start-line="290" selection-start-column="65" selection-end-line="290" selection-end-column="65" />
           <folding>
             <element signature="e#0#13#0" expanded="true" />
           </folding>
