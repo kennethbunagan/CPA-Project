@@ -192,17 +192,21 @@ class MainWindow:
                         player_bullet_list.remove(b)
 
                 # draw game objects in the canvas
+                # screen reset to white
                 draw.rect(game_display, white, (0, 0, width, height))
 
+                # draw bullets
                 for b in enemy_bullet_list:
-                    draw.rect(game_display, yellow, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
+                    draw.rect(game_display, grey, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
 
                 for b in player_bullet_list:
-                    draw.rect(game_display, white, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
+                    draw.rect(game_display, yellow, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
 
+                # draw enemies
                 for e in enemy_list:
                     draw.rect(game_display, black, (e.rect.x, e.rect.y, e.rect.width, e.rect.height))
 
+                # draw player
                 draw.rect(game_display, green, (self.player.rect.x, self.player.rect.y, self.player.rect.width, self.player.rect.height))
 
                 score_text = "Score: " + str(self.points)
@@ -222,6 +226,7 @@ class MainWindow:
                             print('New Game!')
                             new_game()
                             self.__init__(width, height)
+                            self.is_main_game = True
 
 
                 draw.rect(game_display, black, (menu_x, menu_y, menu_width, menu_height))
