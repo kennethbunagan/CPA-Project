@@ -70,6 +70,7 @@ class MainWindow:
         self.is_running = True
         self.is_main_game = False
         self.player = Character(400, 520, 32, 32, 3)
+        self.base_hitpoints = 10
 
     def main(self):
 
@@ -162,6 +163,7 @@ class MainWindow:
                     e.move(0, 1)
                     if e.rect.y + e.rect. width == 600:
                         enemy_list.remove(e)
+                        self.base_hitpoints -= e.hit_points
                         continue
                     if e.rect.colliderect(self.player.rect):
                         enemy_list.remove(e)
@@ -218,11 +220,14 @@ class MainWindow:
 
                 score_text = "Score: " + str(self.points)
                 hit_text = "Hitpoints: " + str(self.player.hit_points)
+                base_text = "Base hit points: " + str(self.base_hitpoints)
 
                 score_label = font.render(score_text, 1, blue)
                 hit_label = font.render(hit_text, 1, blue)
+                base_label = font.render(base_text, 1, blue)
                 game_display.blit(score_label, (700, 40))
                 game_display.blit(hit_label, (40, 40))
+                game_display.blit(base_label, (40, 60))
 
             # if the game is not playing or menu is on is off
             # draw menu screens for 'start' and 'game over'
@@ -251,7 +256,7 @@ class MainWindow:
                 if is_first_run:
                     menu_text_2 = "Press 'ENTER' key to start a new game."
                 else:
-                    menu_text_3 = "You dieded."
+                    menu_text_3 = "You got owned by bck bxs."
                     menu_text_2 = "Press 'ENTER' key to try again."
                     menu_label_3 = font.render(menu_text_3, 1, red)
                     game_display.blit(menu_label_3, (menu_x + 20, menu_y + 40))
