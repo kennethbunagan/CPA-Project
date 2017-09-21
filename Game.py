@@ -1,11 +1,16 @@
 import random
-import pygame
+import math
 from GameObjects import *
 
 pygame.init()
 
 width = 800
 height = 600
+
+top_boundary = 300
+left_boundary = 10
+right_boundary = width - 42
+bottom_boundary = height - 42
 
 menu_height = 300
 menu_width = 400
@@ -19,6 +24,7 @@ clock = pygame.time.Clock()
 time = pygame.time
 draw = pygame.draw
 font = pygame.font.SysFont("monospace", 15, True)
+font2 = pygame.font.SysFont("monospace", 25, True)
 
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -32,10 +38,8 @@ game_display.fill(white)
 
 fps = 60
 
-lead_x = 400
-lead_y = 500
-lead_x_change = 0
-lead_y_change = 0
+enemy_spawm_millis = 2000
+enemy_fire_millis = 2500
 
 # instantiate objects
 enemy_list = []
@@ -53,7 +57,11 @@ def new_game():
     enemy_list.clear()
 
 
+is_first_run = True
+
 class MainWindow:
+
+
     def __init__(self, w, h):
         self.w = w
         self.h = h
@@ -61,7 +69,6 @@ class MainWindow:
         self.points = 0
         self.is_running = True
         self.is_main_game = False
-        self.is_first_run = True
         self.player = Character(400, 520, 32, 32, 3)
 
     def main(self):
@@ -125,13 +132,13 @@ class MainWindow:
             print(list_inputs)
 
             # check if list contains movement commands to move player character
-            if list_inputs.__contains__('left'):
+            if list_inputs.__contains__('left') and self.player.rect.x > left_boundary:
                 self.player.move(-5, 0)
-            elif list_inputs.__contains__('right'):
+            elif list_inputs.__contains__('right') and self.player.rect.x < right_boundary:
                 self.player.move(5, 0)
-            if list_inputs.__contains__('up'):
+            if list_inputs.__contains__('up') and self.player.rect.y > top_boundary:
                 self.player.move(0, -5)
-            elif list_inputs.__contains__('down'):
+            elif list_inputs.__contains__('down') and self.player.rect.y < bottom_boundary:
                 self.player.move(0, 5)
 
 #           player shoot
@@ -142,14 +149,14 @@ class MainWindow:
 
             if self.is_main_game:
                 # spawn enemies
-                if time.get_ticks() - self.spawn_time > 3000:
-                    x_ = random.randint(50, 750)
+                if time.get_ticks() - self.spawn_time > enemy_spawm_millis - (self.points * 20):
+                    x_ = random.randint(left_boundary, right_boundary)
                     enemy_list.append(Character(x_, 0, 32, 32, 1))
                     self.spawn_time = time.get_ticks()
 
                 # update all existing enemies
                 for e in enemy_list:
-                    if time.get_ticks() - e.last_time_shoot > 2500:
+                    if time.get_ticks() - e.last_time_shoot > enemy_fire_millis:
                         enemy_bullet_list.append(Bullet(e.rect.x, e.rect.y + 33, 16, 16, 2))
                         e.last_time_shoot = time.get_ticks()
                     e.move(0, 1)
@@ -228,16 +235,33 @@ class MainWindow:
                             self.__init__(width, height)
                             self.is_main_game = True
 
+                            global is_first_run
+                            is_first_run = False
 
+                # screen reset to white
+                draw.rect(game_display, white, (0, 0, width, height))
+
+                # draw menu screen
                 draw.rect(game_display, black, (menu_x, menu_y, menu_width, menu_height))
 
                 menu_text = "Blck Bx Shtr"
-                menu_text_2 = "Press 'ENTER' key to start a new game"
 
-                menu_label = font.render(menu_text, 1, white)
+                menu_label = font2.render(menu_text, 1, white)
+
+                if is_first_run:
+                    menu_text_2 = "Press 'ENTER' key to start a new game."
+                else:
+                    menu_text_3 = "You dieded."
+                    menu_text_2 = "Press 'ENTER' key to try again."
+                    menu_label_3 = font.render(menu_text_3, 1, red)
+                    game_display.blit(menu_label_3, (menu_x + 20, menu_y + 40))
+
+
                 menu_label_2 = font.render(menu_text_2, 1, white)
-                game_display.blit(menu_label, (menu_x + 20, menu_y + 40))
-                game_display.blit(menu_label_2, (menu_x + 20, menu_y + 80))
+
+                # draw menus
+                game_display.blit(menu_label, (menu_x + 20, menu_y + 80))
+                game_display.blit(menu_label_2, (menu_x + 20, menu_width - 20))
 
             pygame.display.update()
             clock.tick(fps)
