@@ -158,7 +158,7 @@ class MainWindow:
                 # update all existing enemies
                 for e in enemy_list:
                     if time.get_ticks() - e.last_time_shoot > enemy_fire_millis:
-                        enemy_bullet_list.append(Bullet(e.rect.x, e.rect.y + 33, 16, 16, 2))
+                        enemy_bullet_list.append(Bullet(e.rect.x + 8, e.rect.y + 33, 16, 16, 2))
                         e.last_time_shoot = time.get_ticks()
                     e.move(0, 1)
                     if e.rect.y + e.rect. width == 600:
