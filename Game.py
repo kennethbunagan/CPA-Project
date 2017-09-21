@@ -65,10 +65,12 @@ list_inputs = []
 
 
 def new_game():
-    list_inputs.clear()
-    enemy_bullet_list.clear()
-    player_bullet_list.clear()
-    enemy_list.clear()
+	list_inputs.clear()
+	enemy_bullet_list.clear()
+	player_bullet_list.clear()
+	enemy_list.clear()
+	enemy_list_2.clear()
+	
 
 
 is_first_run = True
