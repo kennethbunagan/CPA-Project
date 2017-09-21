@@ -11,6 +11,8 @@ height = 600
 player_sprite = pygame.image.load('res/topview.png')
 bullet_sprite = pygame.image.load('res/bullet.png')
 bullet2_sprite = pygame.image.load('res/bullet2.png')
+alien_sprite = pygame.image.load('res/alien.png')
+alien2_sprite = pygame.image.load('res/alien2.png')
 
 
 top_boundary = 300
@@ -223,7 +225,8 @@ class MainWindow:
 
                 # draw enemies
                 for e in enemy_list:
-                    draw.rect(game_display, black, (e.rect.x, e.rect.y, e.rect.width, e.rect.height))
+                    # draw.rect(game_display, black, (e.rect.x, e.rect.y, e.rect.width, e.rect.height))
+                    game_display.blit(alien_sprite, (e.rect.x, e.rect.y))
 
                 # draw player
                 # draw.rect(game_display, green, (self.player.rect.x, self.player.rect.y, self.player.rect.width, self.player.rect.height))
