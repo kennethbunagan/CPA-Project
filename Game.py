@@ -14,6 +14,7 @@ bullet2_sprite = pygame.image.load('res/bullet2.png')
 alien_sprite = pygame.image.load('res/alien.png')
 alien2_sprite = pygame.image.load('res/alien2.png')
 grass = pygame.image.load('res/grass.png')
+harto = pygame.image.load('res/harto.png')
 
 
 top_boundary = 300
@@ -32,8 +33,10 @@ pygame.display.set_caption('Last Ranger')
 clock = pygame.time.Clock()
 time = pygame.time
 draw = pygame.draw
+
 font = pygame.font.SysFont("monospace", 15, True)
 font2 = pygame.font.SysFont("monospace", 25, True)
+font3 = pygame.font.SysFont("monospace", 20, True)
 
 white = (255, 255, 255)
 black = (0, 0, 0)
@@ -45,11 +48,11 @@ grey = (128, 128, 128)
 
 game_display.fill(white)
 
-fps = 60
+fps = 50
 
 enemy_spawm_millis = 2000
 enemy_2_spawm_millis = 5000
-enemy_fire_millis = 2500
+enemy_fire_millis = 6500
 
 # instantiate objects
 enemy_list = []
@@ -88,6 +91,8 @@ class MainWindow:
 
         # game loop
         while self.is_running:
+
+            t1 = pygame.time
 
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -146,17 +151,17 @@ class MainWindow:
 
             # check if list contains movement commands to move player character
             if list_inputs.__contains__('left') and self.player.rect.x > left_boundary:
-                self.player.move(-5, 0)
+                self.player.move(-6, 0)
             elif list_inputs.__contains__('right') and self.player.rect.x < right_boundary:
-                self.player.move(5, 0)
+                self.player.move(6, 0)
             if list_inputs.__contains__('up') and self.player.rect.y > top_boundary:
-                self.player.move(0, -5)
+                self.player.move(0, -6)
             elif list_inputs.__contains__('down') and self.player.rect.y < bottom_boundary:
-                self.player.move(0, 5)
+                self.player.move(0, 6)
 
 #           player shoot
             if list_inputs.__contains__('space'):
-                if time.get_ticks() - self.player.last_time_shoot > 400:
+                if time.get_ticks() - self.player.last_time_shoot > 200 and len(player_bullet_list) < 5:
                     player_bullet_list.append(Bullet(self.player.rect.x + 16, self.player.rect.y - 32, 16, 16, -4))
                     self.player.last_time_shoot = time.get_ticks()
 
@@ -265,15 +270,20 @@ class MainWindow:
                 # draw.rect(game_display, green, (self.player.rect.x, self.player.rect.y, self.player.rect.width, self.player.rect.height))
                 game_display.blit(player_sprite, (self.player.rect.x - 7, self.player.rect.y - 12))
 
-                score_text = "Score: " + str(self.points)
-                hit_text = "Hitpoints: " + str(self.player.hit_points)
+                # display health
+                if self.player.hit_points >= 3:
+                    game_display.blit(harto, (90, 40))
+                if self.player.hit_points >= 2:
+                    game_display.blit(harto, (50, 40))
+                if self.player.hit_points >= 1:
+                    game_display.blit(harto, (10, 40))
+
+                score_text =  str(self.points) + " Kills"
                 base_text = "Base hit points: " + str(self.base_hitpoints)
 
-                score_label = font.render(score_text, 1, blue)
-                hit_label = font.render(hit_text, 1, blue)
+                score_label = font3.render(score_text, 1, white)
                 base_label = font.render(base_text, 1, blue)
-                game_display.blit(score_label, (700, 40))
-                game_display.blit(hit_label, (40, 40))
+                game_display.blit(score_label, (350, 40))
                 game_display.blit(base_label, (40, 60))
 
             # if the game is not playing or menu is on is off
@@ -285,13 +295,15 @@ class MainWindow:
                             print('New Game!')
                             new_game()
                             self.__init__(width, height)
+                            time = t1
                             self.is_main_game = True
+
 
                             global is_first_run
                             is_first_run = False
 
                 # screen reset to white
-                draw.rect(game_display, white, (0, 0, width, height))
+                draw.rect(game_display, red, (0, 0, width, height))
 
                 # draw menu screen
                 draw.rect(game_display, black, (menu_x, menu_y, menu_width, menu_height))
@@ -303,10 +315,13 @@ class MainWindow:
                 if is_first_run:
                     menu_text_2 = "Press 'ENTER' key to start."
                 else:
-                    menu_text_3 = "You have fallen."
+                    menu_text_3 = "You have fallen, soldier."
+                    menu_text_4 = "Taking down " + str(self.points) + " invaders with you."
                     menu_text_2 = "Press 'ENTER' key to play again."
                     menu_label_3 = font.render(menu_text_3, 1, red)
-                    game_display.blit(menu_label_3, (menu_x + 20, menu_y + 40))
+                    menu_label_4 = font.render(menu_text_4, 1, red)
+                    game_display.blit(menu_label_3, (menu_x + 10, menu_y + 15))
+                    game_display.blit(menu_label_4, (menu_x + 10, menu_y + 40))
 
 
                 menu_label_2 = font.render(menu_text_2, 1, white)
