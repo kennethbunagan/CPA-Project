@@ -1,5 +1,6 @@
 import random
-import math
+import pygame
+from pygame.locals import*
 from GameObjects import *
 
 pygame.init()
