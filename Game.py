@@ -8,6 +8,8 @@ pygame.init()
 width = 800
 height = 600
 
+img = pygame.image.load('res/topview.png')
+
 top_boundary = 300
 left_boundary = 10
 right_boundary = width - 42
@@ -218,6 +220,7 @@ class MainWindow:
 
                 # draw player
                 draw.rect(game_display, green, (self.player.rect.x, self.player.rect.y, self.player.rect.width, self.player.rect.height))
+                game_display.blit(img, (self.player.rect.x - 7, self.player.rect.y - 12))
 
                 score_text = "Score: " + str(self.points)
                 hit_text = "Hitpoints: " + str(self.player.hit_points)
