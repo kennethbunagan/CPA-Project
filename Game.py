@@ -47,10 +47,12 @@ game_display.fill(white)
 fps = 60
 
 enemy_spawm_millis = 2000
+enemy_2_spawm_millis = 5000
 enemy_fire_millis = 2500
 
 # instantiate objects
 enemy_list = []
+enemy_list_2 = []
 enemy_bullet_list = []
 player_bullet_list = []
 player_bullets = []
@@ -74,6 +76,7 @@ class MainWindow:
         self.w = w
         self.h = h
         self.spawn_time = 0
+        self.spawn_time_2 = 0
         self.points = 0
         self.is_running = True
         self.is_main_game = False
@@ -163,13 +166,40 @@ class MainWindow:
                     enemy_list.append(Character(x_, 0, 32, 32, 1))
                     self.spawn_time = time.get_ticks()
 
+                if time.get_ticks() - self.spawn_time_2 > enemy_2_spawm_millis - (self.points * 20):
+                    x_ = random.randint(left_boundary, right_boundary)
+                    enemy_list_2.append(Character(x_, 0, 32, 32, 1))
+                    self.spawn_time_2 = time.get_ticks()
+
+                # update all existing type 2 enemies
+                for e in enemy_list_2:
+                    e.move(0, 2)
+                    if e.rect.y + e.rect. width == 600:
+                        enemy_list_2.remove(e)
+                        self.base_hitpoints -= e.hit_points
+                        continue
+                    if e.rect.colliderect(self.player.rect):
+                        enemy_list_2.remove(e)
+                        self.player.hit_points -= 1
+                        if self.player.hit_points < 1:
+                            self.is_main_game = False
+                    # check if a bullet hits the enemy
+                    for b in player_bullet_list:
+                        if b.rect.colliderect(e.rect):
+                            player_bullet_list.remove(b)
+                            enemy_list_2.remove(e)
+                            self.points += 1
+                            break
+                        if b.rect.y < 0:
+                            player_bullet_list.remove(b)
+
                 # update all existing enemies
                 for e in enemy_list:
                     if time.get_ticks() - e.last_time_shoot > enemy_fire_millis:
                         enemy_bullet_list.append(Bullet(e.rect.x + 8, e.rect.y + 33, 16, 16, 2))
                         e.last_time_shoot = time.get_ticks()
                     e.move(0, 1)
-                    if e.rect.y + e.rect. width == 600:
+                    if e.rect.y + e.rect.width == 600:
                         enemy_list.remove(e)
                         self.base_hitpoints -= e.hit_points
                         continue
@@ -177,11 +207,8 @@ class MainWindow:
                         enemy_list.remove(e)
                         self.player.hit_points -= 1
                         if self.player.hit_points < 1:
-                            # pygame.quit()
-                            # quit()
-                            # self.is_running = False
                             self.is_main_game = False
-
+                    # check if a bullet hits the enemy
                     for b in player_bullet_list:
                         if b.rect.colliderect(e.rect):
                             player_bullet_list.remove(b)
@@ -228,6 +255,10 @@ class MainWindow:
                     # draw.rect(game_display, black, (e.rect.x, e.rect.y, e.rect.width, e.rect.height))
                     game_display.blit(alien_sprite, (e.rect.x, e.rect.y))
 
+                for e in enemy_list_2:
+                    # draw.rect(game_display, black, (e.rect.x, e.rect.y, e.rect.width, e.rect.height))
+                    game_display.blit(alien2_sprite, (e.rect.x, e.rect.y))
+
                 # draw player
                 # draw.rect(game_display, green, (self.player.rect.x, self.player.rect.y, self.player.rect.width, self.player.rect.height))
                 game_display.blit(player_sprite, (self.player.rect.x - 7, self.player.rect.y - 12))
@@ -268,10 +299,10 @@ class MainWindow:
                 menu_label = font2.render(menu_text, 1, white)
 
                 if is_first_run:
-                    menu_text_2 = "Press 'ENTER' key to start a new game."
+                    menu_text_2 = "Press 'ENTER' key to start."
                 else:
                     menu_text_3 = "You have fallen."
-                    menu_text_2 = "Press 'ENTER' key to try again."
+                    menu_text_2 = "Press 'ENTER' key to play again."
                     menu_label_3 = font.render(menu_text_3, 1, red)
                     game_display.blit(menu_label_3, (menu_x + 20, menu_y + 40))
 
