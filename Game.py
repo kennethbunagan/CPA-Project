@@ -10,6 +10,8 @@ height = 600
 
 player_sprite = pygame.image.load('res/topview.png')
 bullet_sprite = pygame.image.load('res/bullet.png')
+bullet2_sprite = pygame.image.load('res/bullet2.png')
+
 
 top_boundary = 300
 left_boundary = 10
@@ -148,7 +150,7 @@ class MainWindow:
 
 #           player shoot
             if list_inputs.__contains__('space'):
-                if time.get_ticks() - self.player.last_time_shoot > 800:
+                if time.get_ticks() - self.player.last_time_shoot > 400:
                     player_bullet_list.append(Bullet(self.player.rect.x + 16, self.player.rect.y - 32, 16, 16, -4))
                     self.player.last_time_shoot = time.get_ticks()
 
@@ -184,6 +186,8 @@ class MainWindow:
                             enemy_list.remove(e)
                             self.points += 1
                             break
+                        if b.rect.y < 0:
+                            player_bullet_list.remove(b)
 
                 # update all existing bullets
                 for b in enemy_bullet_list:
@@ -210,7 +214,8 @@ class MainWindow:
 
                 # draw bullets
                 for b in enemy_bullet_list:
-                    draw.rect(game_display, grey, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
+                    # draw.rect(game_display, grey, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
+                    game_display.blit(bullet2_sprite, (b.rect.x, b.rect.y))
 
                 for b in player_bullet_list:
                     #draw.rect(game_display, yellow, (b.rect.x, b.rect.y, b.rect.width, b.rect.height))
